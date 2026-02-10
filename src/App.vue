@@ -1,7 +1,8 @@
 <template>
   <nav v-if="!$route.meta.hideNavbar">
-    <router-link to="/mostrar/cursos">Cursos</router-link> |
     <router-link to="/mostrar/estudiantes">Estudiantes</router-link> |
+    <router-link to="/mostrar/cursos">Cursos</router-link> |
+    <router-link to="/mostrar/matricula">Matrícula</router-link> |
     <router-link to="/about">About</router-link>
   </nav>
   <router-view/>
@@ -17,7 +18,7 @@
 }
 
 nav {
-  padding: 30px;
+  padding: 25px;
   background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
 
 }

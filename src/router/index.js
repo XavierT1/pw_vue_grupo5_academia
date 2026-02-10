@@ -3,9 +3,15 @@ import LoginView from '@/views/LoginView.vue'
 import TablaCursosView from '@/views/CursoView/TablaCursosView.vue'
 import EstudianteView from '@/views/EstudianteView/EstudianteView.vue'
 
+import MatriculaView from '@/views/MatriculaView/MatriculaView.vue'
+
 const routes = [
 
 
+  {
+    path: '/',
+    redirect: '/login'
+  },
   {
     path: '/login',
     name: 'login',
@@ -15,14 +21,7 @@ const routes = [
     }
   },
 
-  {
-    path: '/mostrar/cursos',
-    name: 'mostrarCursos',
-    component: TablaCursosView,
-    meta: {
-      requiereAutorizacion: true
-    }
-  },
+  
   {
     path: '/mostrar/estudiantes',
     name: 'mostrarEstudiantes',
@@ -31,7 +30,22 @@ const routes = [
       requiereAutorizacion: true
     }
   },
-
+  {
+      path: '/mostrar/cursos',
+      name: 'mostrarCursos',
+      component: TablaCursosView,
+      meta: {
+        requiereAutorizacion: true
+      }
+    },
+    {
+      path: '/mostrar/matricula',
+      name: 'mostrarMatricula',
+      component: MatriculaView,
+      meta: {
+        requiereAutorizacion: true
+      }
+    },
   {
     path: '/about',
     name: 'about',

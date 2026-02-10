@@ -1,5 +1,4 @@
 <template>
-  <h3>viewcurso</h3>
   <div class="container">
     <div class="crear">
       <button class="btncrea" v-show="bntCrear" @click="crear">+ Crear Curso</button>
@@ -99,8 +98,8 @@ export default {
 
 <style >
 .container {
-  margin: 40px auto;
-  padding: 25px;
+  margin: 10px auto;
+  padding: 5px 25px;
   background: #fff;
   border-radius: 12px;
   font-family: Arial, sans-serif;

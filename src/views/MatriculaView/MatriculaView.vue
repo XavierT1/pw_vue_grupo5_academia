@@ -1,22 +1,20 @@
 <template>
   <div class="container">
     <div class="crear">
-      <button class="btncrea" v-show="bntCrear" @click="crear">+ Crear Estudiante</button>
+      <button class="btncrea" v-show="bntCrear" @click="crear">+ Nueva Matrícula</button>
     </div>
     <div class="componets">
       <div>
         <h3 v-if="mensaje">{{ mensaje }}</h3>
       </div>
 
-      <TablaEstudiantes
+      <TablaMatricula
         v-if="!mostrar"
-        @editar="recibecodigo"
         @txt="recibeMensaje"
       />
-      <br/>
-      <FormEstudiante
+
+      <FormMatricula
         v-show="mostrar"
-        :idBuscar="idBuscar"
         :guardar="guard"
         :visible="visi"
         @salir="mostrarComp"
@@ -27,17 +25,16 @@
 </template>
 
 <script>
-import TablaEstudiantes from "@/components/Estudiante/TablaEstudiantes.vue";
-import FormEstudiante from "@/components/Estudiante/FormEstudiante.vue";
+import TablaMatricula from "@/components/Matricula/TablaMatricula.vue";
+import FormMatricula from "@/components/Matricula/FormMatricula.vue";
 
 export default {
   components: {
-    TablaEstudiantes,
-    FormEstudiante,
+    TablaMatricula,
+    FormMatricula,
   },
   data() {
     return {
-      idBuscar: "",
       mostrar: false,
       mensaje: "",
       guard: false,
@@ -49,38 +46,31 @@ export default {
     crear() {
       this.mostrar = true;
       this.guard = true;
-      this.visi = false;
-      this.bntCrear = false;
-    },
-    recibecodigo(id) {
-      this.idBuscar = id;
-      this.mostrar = true;
-      this.visi = true;
+      this.visi = true; // Showing form
       this.bntCrear = false;
     },
     mostrarComp() {
       this.mostrar = false;
       this.guard = false;
-      this.idBuscar = "";
       this.bntCrear = true;
     },
     recibeMensaje(msj) {
       this.guard = false;
 
       if (msj == 1) {
-        this.mensaje = "Se guardó con Éxito";
-        this.tiempo();
-      }
-      if (msj == 2) {
-        this.mensaje = "Se Actualizó con Éxito";
+        this.mensaje = "Matrícula guardada con Éxito";
         this.tiempo();
       }
       if (msj == 3) {
-        this.mensaje = "Registro eliminado";
+        this.mensaje = "Matrícula anulada con éxito";
         this.tiempo();
       }
       if (msj == 4) {
         this.mensaje = "Registro no encontrado";
+        this.tiempo();
+      }
+      if (msj == 5) {
+        this.mensaje = "Error al guardar matrícula";
         this.tiempo();
       }
     },

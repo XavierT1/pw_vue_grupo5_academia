@@ -3,10 +3,10 @@
     <div class="container_buscar">
       <p class="buscar">
         <input
-          type="text"
-          id="codigo_buscar"
-          v-model="codigoBuscar"
-          placeholder="buscar por código"
+          type="number"
+          id="cedula_buscar"
+          v-model="cedulaBuscar"
+          placeholder="buscar por cédula estudiante"
         />
         <button class="btn" @click="buscar">Buscar</button>
       </p>
@@ -15,23 +15,23 @@
       <table class="table">
         <thead class="thead">
           <tr>
-            <th>Codigo</th>
-            <th>Nombre</th>
-            <th>Cupos</th>
-            <th v-show="acciones">Acción</th>
+            <th>ID</th>
+            <th>Estudiante</th>
+            <th>Curso</th>
+            <th>Fecha</th>
+            <th>Estado Matricula</th>
             <th v-show="acciones">Acción</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="curso in curso" :key="curso.id">
-            <td>{{ curso.codigoCurso }}</td>
-            <td>{{ curso.nombre }}</td>
-            <td>{{ curso.cupos }}</td>
+          <tr v-for="mat in matriculas" :key="mat.id">
+            <td>{{ mat.id }}</td>
+            <td>{{ mat.estudiante ? mat.estudiante.nombre + ' ' + mat.estudiante.apellido : 'N/A' }}</td>
+            <td>{{ mat.curso ? mat.curso.nombre : 'N/A' }}</td>
+            <td>{{ mat.fecha }}</td>
+            <td>{{ mat.estadoMatricula }}</td>
             <td v-show="acciones">
-              <button class="edi" @click="editar(curso.id)">Editar</button>
-            </td>
-            <td v-show="acciones">
-              <button class="eli" @click="eliminar(curso.id)">Eliminar</button>
+              <button class="edi" @click="editar(mat.id)">Anular</button>
             </td>
           </tr>
         </tbody>
@@ -43,22 +43,17 @@
 
 <script>
 import {
-  mostrarPorIdFachada,
-  mostrarPorCodigoFachada,
   mostrarTodosFachada,
+  mostrarPorCedulaEstudianteFachada,
   borrarFachada,
-} from "@/clients/CursoClient";
+} from "@/clients/MatriculaClient";
+
 export default {
   data() {
     return {
       acciones: false,
-      codigoBuscar: "",
-      curso: {
-        id: "",
-        codigoCurso: "",
-        nombre: "",
-        cupos: "",
-      },
+      cedulaBuscar: "",
+      matriculas: [],
     };
   },
   mounted() {
@@ -68,38 +63,35 @@ export default {
     async Todos() {
       const resp = await mostrarTodosFachada();
       if (resp) {
-        console.log(resp);
-        this.curso = resp;
+        this.matriculas = resp;
       }
     },
     async buscar() {
       try {
-        const resp = await mostrarPorCodigoFachada(this.codigoBuscar);
-        if (resp) {
-          this.curso = [resp];
+        const resp = await mostrarPorCedulaEstudianteFachada(this.cedulaBuscar);
+        if (resp && resp.length > 0) {
+          this.matriculas = resp;
           this.acciones = true;
-          this.codigoBuscar = "";
+          this.cedulaBuscar = "";
+        } else {
+          this.cedulaBuscar = "";
+          this.$emit("txt", 4);
         }
       } catch {
-        this.codigoBuscar = "";
+        this.cedulaBuscar = "";
         this.$emit("txt", 4);
       }
+    },
+    async editar(id) {
+      await borrarFachada(id);
+      this.Todos();
+      this.acciones = false;
+      this.cedulaBuscar = "";
+      this.$emit("txt", 3);
     },
     regresar() {
       this.Todos();
       this.acciones = false;
-      console.log("buscar", this.curso);
-    },
-    editar(id) {
-      this.$emit("editar", id);
-    },
-
-    async eliminar(id) {
-      await borrarFachada(id);
-      this.Todos();
-      this.acciones = false;
-      this.idBuscar = "";
-      this.$emit("txt", 3);
     },
   },
 };
@@ -116,19 +108,27 @@ export default {
 
 .datos {
   width: 100%;
-  max-width: 500px;
+  max-width: 800px;
   background: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
 }
 
-.container-buscar {
+.container_buscar {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+}
+p.buscar {
+  display: flex;
   gap: 10px;
 }
+
 input {
   flex: 1;
   height: 42px;
@@ -153,14 +153,7 @@ button.btn:hover {
   background: #574b90;
   transform: scale(1.03);
 }
-.datos {
-  margin: 30px auto;
-  max-width: 800px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-}
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -170,8 +163,8 @@ button.btn:hover {
 .table thead th {
   padding: 12px 15px;
   text-align: center;
-  background-color: #847fe0; /* color de fondo del encabezado */
-  color: white; /* texto blanco para contraste */
+  background-color: #847fe0;
+  color: white;
   font-weight: bold;
 }
 
@@ -180,8 +173,9 @@ button.btn:hover {
   text-align: center;
   border-bottom: 1px solid #ddd;
 }
+
 button.edi {
-  background: #4caf50; /* verde para editar */
+  background: #ca1306;
   color: white;
   border: 5px;
   border-radius: 8px;
@@ -190,24 +184,13 @@ button.edi {
 
 .table button.edi:hover {
   background: #357a37;
-}
-
-button.eli {
-  background: #ca1306; /* rojo para eliminar */
-  color: white;
-  border: 5px;
-  border-radius: 8px;
-  width: 80px;
-}
-
-.table button.eli:hover {
-  background: #891f1f;
   border: none;
 }
 
 button[v-show="acciones"] {
   margin-top: 15px;
   padding: 10px 20px;
+
   background: #6c63ff;
   color: white;
   border: none;
