@@ -24,6 +24,7 @@
   </div>
 </template>
 
+
 <script>
 import TablaMatricula from "@/components/Matricula/TablaMatricula.vue";
 import FormMatricula from "@/components/Matricula/FormMatricula.vue";

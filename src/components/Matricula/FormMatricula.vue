@@ -35,6 +35,7 @@
   </div>
 </template>
 
+
 <script>
 import { matricularFachada } from "@/clients/MatriculaClient";
 import { mostrarPorCedulaFachada } from "@/clients/EstudianteClient";

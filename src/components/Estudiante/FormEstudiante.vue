@@ -31,6 +31,7 @@
           v-model="estudiante.carrera"
           placeholder="Ingrese la carrera"
         />
+        
         <label for="fechaNacimiento">Fecha de Nacimiento:</label>
         <input
           type="date"

@@ -183,6 +183,7 @@ button {
   margin-top: 25px;
 }
 
+
 .botones button:hover {
   transform: scale(1.05);
 }

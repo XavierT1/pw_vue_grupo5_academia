@@ -26,6 +26,7 @@
   </div>
 </template>
 
+
 <script>
 import TablaEstudiantes from "@/components/Estudiante/TablaEstudiantes.vue";
 import FormEstudiante from "@/components/Estudiante/FormEstudiante.vue";

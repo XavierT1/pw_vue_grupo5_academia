@@ -80,7 +80,7 @@ export default {
         }
       } catch {
         this.cedulaBuscar = "";
-        this.$emit("txt", 4); // Registro no encontrado
+        this.$emit("txt", 4);
       }
     },
     regresar() {
@@ -95,10 +95,11 @@ export default {
       this.Todos();
       this.acciones = false;
       this.cedulaBuscar = "";
-      this.$emit("txt", 3); // Registro eliminado
+      this.$emit("txt", 3);
     },
   },
 };
+
 </script>
 
 <style scoped>

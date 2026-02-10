@@ -41,6 +41,7 @@
   </div>
 </template>
 
+
 <script>
 import {
   mostrarPorIdFachada,
@@ -170,8 +171,8 @@ button.btn:hover {
 .table thead th {
   padding: 12px 15px;
   text-align: center;
-  background-color: #847fe0; /* color de fondo del encabezado */
-  color: white; /* texto blanco para contraste */
+  background-color: #847fe0;
+  color: white; 
   font-weight: bold;
 }
 
@@ -181,7 +182,7 @@ button.btn:hover {
   border-bottom: 1px solid #ddd;
 }
 button.edi {
-  background: #4caf50; /* verde para editar */
+  background: #4caf50; 
   color: white;
   border: 5px;
   border-radius: 8px;
@@ -193,7 +194,7 @@ button.edi {
 }
 
 button.eli {
-  background: #ca1306; /* rojo para eliminar */
+  background: #ca1306;
   color: white;
   border: 5px;
   border-radius: 8px;
